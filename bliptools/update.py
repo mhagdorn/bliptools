@@ -1,5 +1,3 @@
-__all__ = ['BLIPApi']
-
 import logging
 import argparse
 import pathlib
