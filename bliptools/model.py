@@ -1,6 +1,6 @@
-__all__ = ['Entry','get_session']
+__all__ = ['Entry','BlipDB']
 
-from sqlalchemy import Column, Integer, String, Date, Float
+from sqlalchemy import Column, Integer, String, Date, Float, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -19,22 +19,27 @@ class Entry(Base):
     thumbnail_url = Column(String)
     image_url = Column(String)
 
-class DBSession:
-    def __init__(self):
-        self._eng = None
-        self._session = None
-        
-    def __call__(self,dbstring):
-        if self._session is None:
-            self._eng = create_engine(dbstring)
-            Base.metadata.bind = self._eng
-            Base.metadata.create_all()
-            Session = sessionmaker(bind=self._eng)
-            self._session = Session()
+class BlipDB:
+    def __init__(self,dbstring):
+        self._eng = create_engine(dbstring)
+        Base.metadata.bind = self._eng
+        Base.metadata.create_all()
+        Session = sessionmaker(bind=self._eng)
+        self._session = Session()
+
+    @property
+    def session(self):
         return self._session
 
-get_session = DBSession()
+    @property
+    def latest(self):
+        return self.session.query(func.max(Entry.date)).one_or_none()[0]
 
-
+    def commit(self):
+        self.session.commit()
+    
+    def add(self,entry_id, date, title, username, lat, lon, thumbnail_url, image_url):
+        self.session.add(Entry(entry_id=entry_id, date=date, title=title, username=username, lat=lat, lon=lon, thumbnail_url=thumbnail_url, image_url=image_url))
+    
 if __name__ == '__main__':
-    session = get_session('sqlite:///test.sqlite')
+    db = BlipDB('sqlite:///test.sqlite')
