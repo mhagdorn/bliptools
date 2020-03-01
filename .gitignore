@@ -1,3 +1,6 @@
 *~
 
 bliptools/__pycache__/
+bliptools.egg-info/
+build/
+dist/
