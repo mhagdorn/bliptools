@@ -2,7 +2,10 @@
 from setuptools import setup
 
 setup(name='bliptools',
-      install_requires = ['requests',
+      install_requires = ['numpy',
+                          'matplotlib',
+                          'cartopy',
+                          'requests',
                           'sqlalchemy',],
       version='0.0.1',
       description='tools for handling blipfoto journals',
@@ -13,6 +16,7 @@ setup(name='bliptools',
       entry_points={
           'console_scripts': [
               'bliptools-update = bliptools.update:main',
+              'bliptools-map = bliptools.map:main'
               ],
       },
   )
