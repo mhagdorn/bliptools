@@ -1,3 +1,5 @@
+__all__ = ['readConfig']
+
 import configparser
 import pathlib
 
