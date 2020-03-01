@@ -1,5 +1,7 @@
 __all__ = ['Entry','BlipDB']
 
+import numpy
+
 from sqlalchemy import Column, Integer, String, Date, Float, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -40,6 +42,13 @@ class BlipDB:
     
     def add(self,entry_id, date, title, username, lat, lon, thumbnail_url, image_url):
         self.session.add(Entry(entry_id=entry_id, date=date, title=title, username=username, lat=lat, lon=lon, thumbnail_url=thumbnail_url, image_url=image_url))
+
+    def get_locations(self):
+        locations = []
+        for l in self.session.query(Entry.lon,Entry.lat).all():
+            if l[0] is not None and l[1] is not None:
+                locations.append(l)
+        return numpy.array(locations)
     
 if __name__ == '__main__':
     db = BlipDB('sqlite:///test.sqlite')
