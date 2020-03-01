@@ -28,8 +28,10 @@ class BLIPApi:
     
     def journal_entries(self,username,newer=None):
         index = 0
-        num_entries = 2
-        while index<2:
+        num_entries = 100
+        if newer is not None:
+            logging.info('selecting entries newer than {}'.format(newer))
+        while True:
             logging.info('requesting page {} with {} entries'.format(index,num_entries))
             r = requests.get(self.url('entries/journal'),
                              params={'username':username,
@@ -49,11 +51,15 @@ class BLIPApi:
                 if newer is not None:
                     if entry['date'] <= newer:
                         logging.info('done - entry is too old')
-                        break
+                        return
                 for k in ['entry_id','title','username','thumbnail_url','image_url']:
                     entry[k] = e[k]
-                for k in ['lat','lon']:
-                    entry[k] = e['location'][k]
+                if e['location'] is not None:
+                    for k in ['lat','lon']:
+                        entry[k] = e['location'][k]
+                else:
+                    for k in ['lat','lon']:
+                        entry[k] = None
                 yield entry
             
             if page['more'] == 1:
