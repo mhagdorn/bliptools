@@ -49,6 +49,10 @@ class BlipDB:
             if l[0] is not None and l[1] is not None:
                 locations.append(l)
         return numpy.array(locations)
-    
+
+    def get_entries_with_location(self):
+        for l in self.session.query(Entry).filter(Entry.lat.isnot(None),Entry.lon.isnot(None)).all():
+            yield l
+            
 if __name__ == '__main__':
     db = BlipDB('sqlite:///test.sqlite')

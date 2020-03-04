@@ -5,6 +5,7 @@ setup(name='bliptools',
       install_requires = ['numpy',
                           'matplotlib',
                           'cartopy',
+                          'geojson',
                           'requests',
                           'sqlalchemy',],
       version='0.0.1',
@@ -16,7 +17,8 @@ setup(name='bliptools',
       entry_points={
           'console_scripts': [
               'bliptools-update = bliptools.update:main',
-              'bliptools-map = bliptools.map:main'
-              ],
+              'bliptools-map = bliptools.map:main',
+              'bliptools-geojson = bliptools.togeojson:main',
+          ],
       },
   )
