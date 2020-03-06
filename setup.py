@@ -19,6 +19,7 @@ setup(name='bliptools',
               'bliptools-update = bliptools.update:main',
               'bliptools-map = bliptools.map:main',
               'bliptools-geojson = bliptools.togeojson:main',
+              'bliptools-info = bliptools.info:main',
           ],
       },
   )
