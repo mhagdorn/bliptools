@@ -33,6 +33,7 @@ def main():
         feature = geojson.Feature(geometry=geojson.Point((e.lon,e.lat)),
                                   properties = {'img':e.image_url,
                                                 'title':e.title,
+                                                'entry_id':str(e.entry_id),
                                                 'date':str(e.date)})
         features.append(feature)
     features = geojson.FeatureCollection(features)
