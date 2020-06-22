@@ -50,8 +50,13 @@ class BlipDB:
                 locations.append(l)
         return numpy.array(locations)
 
-    def get_entries_with_location(self):
-        for l in self.session.query(Entry).filter(Entry.lat.isnot(None),Entry.lon.isnot(None)).all():
+    def get_entries_with_location(self,start=None,end=None):
+        filter = [Entry.lat.isnot(None),Entry.lon.isnot(None)]
+        if start is not None:
+            filter.append(Entry.date>=start)
+        if end is not None:
+            filter.append(Entry.date<=end)
+        for l in self.session.query(Entry).filter(*filter).all():
             yield l
             
 if __name__ == '__main__':
