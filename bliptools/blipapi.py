@@ -25,18 +25,18 @@ class BLIPApi:
         return self._headers
     def url(self,api):
         return '{}/{}'.format(self.baseurl,api)
-    
-    def journal_entries(self,username,newer=None):
+            
+    def _get_entries(self,url,params,newer=None):
         index = 0
         num_entries = 100
         if newer is not None:
             logging.info('selecting entries newer than {}'.format(newer))
         while True:
             logging.info('requesting page {} with {} entries'.format(index,num_entries))
-            r = requests.get(self.url('entries/journal'),
-                             params={'username':username,
-                                     'page_size':num_entries,
-                                     'page_index':index},
+            params['page_size'] = num_entries
+            params['page_index'] = index
+            r = requests.get(self.url(url),
+                             params=params,
                              headers=self.headers)
             data = r.json()
             if data['error'] is not None:
@@ -68,8 +68,22 @@ class BLIPApi:
                 logging.info('done - no more pages')
                 break
 
+    def journal_entries(self,username,newer=None):
+        for entry in self._get_entries(
+                'entries/journal',
+                params={'username':username},
+                newer=newer):
+            yield entry
 
+    def query(self,query,newer=None):
+        for entry in self._get_entries(
+                'entries/search',
+                params={'query': query,'sort':'date'},
+                newer=newer):
+            yield entry
+            
 
+            
 if __name__ == '__main__':
     from .config import readConfig
 
