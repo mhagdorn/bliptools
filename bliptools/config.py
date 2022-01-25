@@ -14,7 +14,7 @@ def readConfig(fname=pathlib.Path('~/.bliptools')):
         raise RuntimeError(
             f'configuration file {fname} does not contain general section')
 
-    for k in ['accesstoken', 'username', 'baseurl']:
+    for k in ['accesstoken', 'username', 'baseurl', 'client_id']:
         if not config.has_option('general', k):
             raise RuntimeError(
                 f'configuration file {fname} has no option {k} '

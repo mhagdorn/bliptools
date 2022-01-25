@@ -11,11 +11,16 @@ class BlipError(Exception):
 
 
 class BLIPApi:
-    def __init__(self, token, baseurl):
+    def __init__(self, token, baseurl, client_id):
         self._accesstoken = token
         self._baseurl = baseurl
+        self._client_id = client_id
         self._headers = {
-            'Authorization': 'Bearer paSmmahmNKBjh3lbTSWbeLOmih6HIB'}
+            'Authorization': f'Bearer {client_id}'}
+
+    @classmethod
+    def from_cfg(cls, cfg):
+        return cls(cfg['accesstoken'], cfg['baseurl'], cfg['client_id'])
 
     @property
     def accesstoken(self):

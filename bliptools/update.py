@@ -32,7 +32,7 @@ def main():
     logging.basicConfig(format='%(levelname)s:%(message)s', level=level)
     cfg = readConfig(args.config)
 
-    blip = BLIPApi(cfg['accesstoken'], cfg['baseurl'])
+    blip = BLIPApi.from_cfg(cfg)
     db = BlipDB('sqlite:///{}'.format(args.output))
 
     if args.query is not None:

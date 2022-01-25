@@ -7,6 +7,7 @@ The bliptools need a configuration file with an API access token which can be ge
 ```
 [general]
 accesstoken = SOME_LONG_HEX_STRING
+client_id = ANOTHER_HEX_STRING
 username = blipname
 baseurl = https://api.blipfoto.com/4/
 ```
