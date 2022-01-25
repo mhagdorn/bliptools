@@ -2,13 +2,13 @@
 from setuptools import setup
 
 setup(name='bliptools',
-      install_requires = ['numpy',
-                          'matplotlib',
-                          'cartopy',
-                          'geojson',
-                          'requests',
-                          'folium',
-                          'sqlalchemy',],
+      install_requires=['numpy',
+                        'matplotlib',
+                        'cartopy',
+                        'geojson',
+                        'requests',
+                        'folium',
+                        'sqlalchemy', ],
       version='0.0.2',
       description='tools for handling blipfoto journals',
       author='Magnus Hagdorn',
@@ -23,5 +23,4 @@ setup(name='bliptools',
               'bliptools-info = bliptools.info:main',
               'bliptools-folium = bliptools.folium:main',
           ],
-      },
-  )
+      },)
